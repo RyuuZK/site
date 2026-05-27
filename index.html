@@ -1,214 +1,729 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RyuuK | Desenvolvimento Web & Engenharia</title>
+    <title>Gianluca | Computer Engineer & Game / Software Developer</title>
+
+    <meta name="description" content="Gianluca Oliveira — Computer Engineering student, Game Dev & Software Developer. Specialist in C++, Python, Lua, C# and Deep Learning.">
+    <meta name="author" content="Gianluca Oliveira">
+    <meta property="og:title" content="Gianluca | Engineer & Game Dev">
+    <meta property="og:description" content="Computer Engineering student, Game Dev & Software Developer. Creator of games, systems and automations.">
+    <meta property="og:image" content="foto.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gianluca | Engineer & Game Dev">
+    <meta name="twitter:description" content="Computer Engineering student, Game Dev & Software Developer.">
+    <meta name="twitter:image" content="foto.png">
+
+    <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { neutral: { 850: '#181f25' } },
+                    fontFamily: {
+                        syne:  ['Syne', 'sans-serif'],
+                        space: ['DM Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .scanline-effect { position: relative; }
+        .scanline-effect::after {
+            content: " "; display: block; position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.22) 50%),
+                        linear-gradient(90deg, rgba(255,0,0,0.04), rgba(0,255,0,0.015), rgba(0,0,255,0.04));
+            z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        }
+        .page-content { display: none; }
+        .page-content.active { display: block; }
+        .tech-tag { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 500; color: #a3a3a3; }
+        .tech-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        a, button, [onclick] { cursor: pointer; }
+
+        /* ── Menu mobile ── */
+        #mobile-menu { display: none; flex-direction: column; gap: 0; background: #0b0f12; border-bottom: 1px solid #1a2330; }
+        #mobile-menu.open { display: flex; }
+        #mobile-menu button { padding: 14px 24px; text-align: left; font-size: 0.9rem; font-weight: 500; color: #a3a3a3; border-bottom: 1px solid #111820; transition: color 0.15s, background 0.15s; }
+        #mobile-menu button:hover { color: #fff; background: #111820; }
+        #mobile-menu button.active-mobile { color: #22d3ee; }
+
+        /* ── Botões de idioma ── */
+        .lang-btn { font-size: 0.7rem; font-family: 'DM Mono', monospace; font-weight: 700; padding: 5px 10px; border-radius: 3px; border: 1px solid #1f2a35; background: #0e1318; color: #6b7280; transition: all 0.15s; letter-spacing: 0.08em; }
+        .lang-btn.active { border-color: #22d3ee; color: #22d3ee; background: #0d1f28; }
+        .lang-btn:hover:not(.active) { border-color: #374151; color: #9ca3af; }
+        .lang-switcher { display: flex; align-items: center; border: 1px solid #1f2a35; border-radius: 4px; overflow: hidden; background: #0e1318; }
+        .lang-switcher .lang-btn { border: none; border-radius: 0; border-right: 1px solid #1f2a35; }
+        .lang-switcher .lang-btn:last-child { border-right: none; }
+        .lang-switcher .lang-btn.active { background: #0d1f28; color: #22d3ee; }
+
+        /* ── Modal certificado ── */
+        #cert-modal { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.88); align-items: center; justify-content: center; padding: 24px; }
+        #cert-modal.open { display: flex; }
+        #cert-modal img { max-width: 700px; width: 100%; border-radius: 4px; box-shadow: 0 0 60px rgba(0,0,0,0.8); }
+        #cert-modal-close { position: absolute; top: 20px; right: 24px; color: #fff; font-size: 1.6rem; cursor: pointer; opacity: 0.7; transition: opacity 0.15s; }
+        #cert-modal-close:hover { opacity: 1; }
+
+        /* ── Fade-in de página ── */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        .page-content.active { animation: fadeIn 0.25s ease; }
+
+        /* ── Video play overlay ── */
+        .video-wrap { position: relative; }
+        .video-overlay {
+            position: absolute; inset: 0; z-index: 3;
+            background: #0b0f12;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+            cursor: pointer; transition: opacity 0.3s;
+        }
+        .video-overlay.hidden { opacity: 0; pointer-events: none; }
+        .play-btn {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: rgba(34,211,238,0.1); border: 2px solid rgba(34,211,238,0.4);
+            display: flex; align-items: center; justify-content: center;
+            color: #22d3ee; font-size: 1.2rem; padding-left: 4px;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+        .video-overlay:hover .play-btn {
+            background: rgba(34,211,238,0.2); border-color: #22d3ee; transform: scale(1.08);
+        }
+        .video-label { font-size: 0.65rem; font-family: 'DM Mono', monospace; font-weight: 700;
+            letter-spacing: 0.15em; color: #374151; text-transform: uppercase; }
+        .video-coming-soon {
+            background: repeating-linear-gradient(45deg, #0b0f12, #0b0f12 10px, #0d1117 10px, #0d1117 20px);
+            border: 1px dashed #1f2a35;
+            border-radius: 2px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 10px; aspect-ratio: 16/9;
+            color: #374151;
+        }
+    </style>
 </head>
-<body class="bg-neutral-950 text-neutral-100 font-sans antialiased selection:bg-cyan-500 selection:text-neutral-950">
+<body class="bg-[#0b0f12] text-neutral-200 font-space antialiased selection:bg-cyan-400 selection:text-black min-h-screen flex flex-col">
 
-    <nav class="border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
-            <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                RyuuK
-            </span>
-            <a href="#contato" class="bg-neutral-900 border border-neutral-700 hover:border-cyan-400 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300">
-                Fazer Orçamento
-            </a>
+<!-- ════════════ NAV ════════════ -->
+<nav class="border-b border-neutral-900 bg-[#0b0f12]/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
+
+        <button onclick="switchPage('home')" class="text-2xl font-syne font-extrabold tracking-tight text-white flex items-center gap-1">
+            <span class="text-cyan-400">G</span>L
+        </button>
+
+        <!-- Desktop nav -->
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <button onclick="switchPage('home')"      class="nav-link text-cyan-400 font-semibold transition py-2" data-page="home"      data-pt="Home"               data-en="Home">Home</button>
+            <button onclick="switchPage('portfolio')" class="nav-link text-neutral-400 hover:text-white transition py-2" data-page="portfolio" data-pt="Portfólio"    data-en="Portfolio">Portfolio</button>
+            <button onclick="switchPage('sobre')"     class="nav-link text-neutral-400 hover:text-white transition py-2" data-page="sobre"     data-pt="Sobre"         data-en="About">About</button>
+            <button onclick="switchPage('servicos')"  class="nav-link text-neutral-400 hover:text-white transition py-2" data-page="servicos"  data-pt="Serviços & Contato" data-en="Services & Contact">Services & Contact</button>
         </div>
-    </nav>
 
-    <header class="max-w-4xl mx-auto px-4 pt-20 pb-16 text-center">
-        <span class="px-3 py-1 text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded-full">
-            Disponível para novos projetos
-        </span>
-        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mt-6 bg-gradient-to-b from-white to-neutral-400 bg-clip-text text-transparent">
-            Coloque sua empresa na internet com um site de alto nível
-        </h1>
-        <p class="text-neutral-400 text-lg md:text-xl mt-6 max-w-2xl mx-auto leading-relaxed">
-            Desenvolvo landing pages e sites institucionais sob medida. Código limpo, design moderno e otimizado para carregar rápido no celular e no computador.
-        </p>
-        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#contato" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-neutral-950 font-bold px-8 py-4 rounded-xl shadow-lg shadow-cyan-500/20 transition-all duration-300 flex items-center justify-center gap-2">
-                <i class="fa-brands fa-whatsapp text-lg"></i> Quero um Site Profissional
-            </a>
-            <a href="#sobre" class="bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 px-8 py-4 rounded-xl font-medium transition-all duration-300">
-                Quem Sou Eu
-            </a>
-        </div>
-    </header>
-
-    <section id="sobre" class="max-w-4xl mx-auto px-4 py-20 border-t border-neutral-900">
-        <div class="grid md:grid-cols-3 gap-12 items-center">
-            
-            <div class="flex justify-center md:col-span-1">
-                <div class="relative group">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300"></div>
-                    <img src="foto.png" 
-                         alt="Sua Foto" 
-                         class="relative rounded-2xl w-48 h-48 md:w-full md:h-auto object-cover border border-neutral-800 bg-neutral-900">
-                </div>
+        <div class="flex items-center gap-3">
+            <!-- Dois botões PT | EN -->
+            <div class="lang-switcher">
+                <button class="lang-btn" id="btn-pt" onclick="setLang('pt')">PT</button>
+                <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
             </div>
-            
-            <div class="md:col-span-2 space-y-4 text-center md:text-left">
-                <h2 class="text-3xl font-bold tracking-tight">Trabalho técnico com foco em resultados reais</h2>
-                <p class="text-neutral-400 leading-relaxed">
-                    Olá! Tenho 22 anos e sou estudante do segundo ano de Engenharia de Computação da FURG. Sempre fui fascinado por tecnologia e por como linhas de código podem se transformar em soluções reais para negócios e pessoas.
-                </p>
-                <p class="text-neutral-400 leading-relaxed">
-                    Utilizo a base sólida e analítica da engenharia para desenvolver softwares robustos e criar sites de alta performance. Domino o desenvolvimento com lógica de baixo e alto nível, aplicando o rigor matemático acadêmico no mercado digital.
-                </p>
-                
-                <div class="pt-2">
-                    <p class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-2">Tecnologias & Especialidades</p>
-                    <div class="flex flex-wrap gap-2 justify-center md:justify-start">
-                        <span class="px-3 py-1 text-xs font-medium bg-neutral-900 border border-neutral-800 rounded-md text-cyan-400">C</span>
-                        <span class="px-3 py-1 text-xs font-medium bg-neutral-900 border border-neutral-800 rounded-md text-yellow-400">Python</span>
-                        <span class="px-3 py-1 text-xs font-medium bg-neutral-900 border border-neutral-800 rounded-md text-purple-400">C#</span>
-                        <span class="px-3 py-1 text-xs font-medium bg-neutral-900 border border-neutral-800 rounded-md text-blue-400">Lua</span>
-                        <span class="px-3 py-1 text-xs font-medium bg-neutral-900 border border-neutral-800 rounded-md text-emerald-400">Desenvolvimento Web (HTML/CSS/Tailwind)</span>
-                    </div>
-                </div>
+            <button onclick="switchPage('servicos')" class="hidden sm:block bg-cyan-400 hover:bg-cyan-300 text-black font-semibold px-5 py-2.5 rounded-sm text-sm tracking-wide transition-all duration-300 active:scale-95" data-pt="Orçamento" data-en="Quote">Quote</button>
+            <!-- Hamburguer -->
+            <button id="hamburger" class="md:hidden flex flex-col justify-center items-center gap-1.5 w-8 h-8" aria-label="Menu">
+                <span class="ham-line block w-6 h-0.5 bg-neutral-300 transition-all duration-300"></span>
+                <span class="ham-line block w-6 h-0.5 bg-neutral-300 transition-all duration-300"></span>
+                <span class="ham-line block w-6 h-0.5 bg-neutral-300 transition-all duration-300"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu">
+        <button onclick="switchPage('home');closeMobileMenu()"      class="nav-link active-mobile" data-page="home"      data-pt="Home"               data-en="Home">Home</button>
+        <button onclick="switchPage('portfolio');closeMobileMenu()" class="nav-link"               data-page="portfolio" data-pt="Portfólio"           data-en="Portfolio">Portfolio</button>
+        <button onclick="switchPage('sobre');closeMobileMenu()"     class="nav-link"               data-page="sobre"     data-pt="Sobre"               data-en="About">About</button>
+        <button onclick="switchPage('servicos');closeMobileMenu()"  class="nav-link"               data-page="servicos"  data-pt="Serviços & Contato"  data-en="Services & Contact">Services & Contact</button>
+        <button onclick="switchPage('servicos');closeMobileMenu()"  class="bg-cyan-400 text-black font-bold text-sm tracking-wide" data-pt="Orçamento" data-en="Quote">Quote</button>
+    </div>
+</nav>
+
+<!-- ════════════ MODAL CERT ════════════ -->
+<div id="cert-modal" onclick="closeCertModal()">
+    <span id="cert-modal-close" onclick="closeCertModal()"><i class="fa-solid fa-xmark"></i></span>
+    <img src="cert.png" alt="NVIDIA Certificate — Fundamentals of Deep Learning">
+</div>
+
+<main class="flex-grow">
+
+<!-- ════════════ HOME ════════════ -->
+<section id="page-home" class="page-content active max-w-5xl mx-auto px-6 pt-10 lg:pt-20 pb-24">
+    <div class="grid lg:grid-cols-12 gap-12 items-start">
+
+        <div class="lg:col-span-7 space-y-8">
+            <div class="text-xs font-bold tracking-[0.2em] text-cyan-500 uppercase font-mono">
+                // 01 • <span data-pt="ESTUDANTE DE ENGENHARIA DE COMPUTAÇÃO" data-en="COMPUTER ENGINEERING STUDENT">COMPUTER ENGINEERING STUDENT</span>
             </div>
 
-        </div>
-    </section>
+            <h1 class="text-5xl md:text-7xl font-syne font-extrabold tracking-tight text-white leading-[1.0]">
+                <span>Gianluca,</span><br>
+                <span data-pt="Engenheiro &" data-en="Engineer &">Engineer &</span><br>
+                <span>Game Dev.</span>
+            </h1>
 
-    <section class="max-w-4xl mx-auto px-4 py-20 border-t border-neutral-900">
-        <div class="grid md:grid-cols-3 gap-12 items-center">
-            
-            <div class="md:col-span-2 space-y-4 order-2 md:order-1 text-center md:text-left">
-                <div class="inline-flex items-center gap-2 px-3 py-1 text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full">
-                    <i class="fa-solid fa-microchip"></i> Formação Técnica Atualizada
-                </div>
-                <h2 class="text-3xl font-bold tracking-tight">Conhecimento validado por gigantes do mercado</h2>
-                <p class="text-neutral-400 leading-relaxed">
-                    A tecnologia avança rápido, e estar à frente é fundamental. Além da bagagem universitária, busco especializações práticas com grandes referências globais da indústria tech.
-                </p>
-                <p class="text-neutral-400 leading-relaxed">
-                    Possuo certificação emitida pela NVIDIA em Deep Learning, o que valida minha capacidade de compreender e lidar com arquiteturas de software complexas, otimização de processamento e lógica avançada de computação. Aplico essa mesma mentalidade de excelência em cada projeto que desenvolvo.
-                </p>
-            </div>
-
-            <div class="flex justify-center md:col-span-1 order-1 md:order-2">
-                <div class="relative group cursor-zoom-in">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
-                    <img src="cert.png" 
-                         alt="Certificado NVIDIA Deep Learning" 
-                         class="relative rounded-xl border border-neutral-800 bg-neutral-900 shadow-xl transition duration-300 group-hover:scale-[1.02]">
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <section class="max-w-4xl mx-auto px-4 py-20 border-t border-neutral-900">
-        <div class="text-center md:text-left max-w-2xl mb-12">
-            <div class="inline-flex items-center gap-2 px-3 py-1 text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-full mb-4">
-                <i class="fa-brands fa-github"></i> Código Aberto & Engenharia
-            </div>
-            <h2 class="text-3xl font-bold tracking-tight">Bastidores técnicos e projetos práticos</h2>
-            <p class="text-neutral-400 mt-2">Transparência total no desenvolvimento. Clique nos cards abaixo para inspecionar o código fonte de cada projeto diretamente no GitHub.</p>
-        </div>
-
-        <div class="grid sm:grid-cols-2 gap-6">
-            <a href="https://github.com/RyuuZK/Jogo-1o-ano." 
-               target="_blank" 
-               class="p-5 bg-neutral-900/40 border border-neutral-850 hover:border-purple-500/40 hover:bg-neutral-900/70 rounded-xl flex flex-col justify-between transition duration-300 group block">
-                <div>
-                    <div class="flex items-center gap-2 text-neutral-300 font-semibold text-sm tracking-wide group-hover:text-purple-400 transition">
-                        <i class="fa-regular fa-folder text-purple-400"></i> Jogo rogue
-                    </div>
-                    <p class="text-neutral-450 text-xs mt-3 leading-relaxed">
-                        Repositório dedicado à realização de um trabalho de desenvolvimento de jogo no estilo Rogue construído durante meu primeiro ano acadêmico.
-                    </p>
-                </div>
-                <div class="mt-6 flex items-center gap-4 text-xs text-neutral-500">
-                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span> Python</span>
-                </div>
-            </a>
-
-            <a href="https://github.com/RyuuZK/primeiro-projeto." 
-               target="_blank" 
-               class="p-5 bg-neutral-900/40 border border-neutral-850 hover:border-purple-500/40 hover:bg-neutral-900/70 rounded-xl flex flex-col justify-between transition duration-300 group block">
-                <div>
-                    <div class="flex items-center gap-2 text-neutral-300 font-semibold text-sm tracking-wide group-hover:text-purple-400 transition">
-                        <i class="fa-regular fa-folder text-purple-400"></i> jogo Pokémon
-                    </div>
-                    <p class="text-neutral-450 text-xs mt-3 leading-relaxed">
-                        Projeto prático de simulação e mecânicas de Pokémon que desenvolvi de forma autônoma antes mesmo de ingressar na FURG.
-                    </p>
-                </div>
-                <div class="mt-6 flex items-center gap-4 text-xs text-neutral-500">
-                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-yellow-500"></span> Python</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="mt-10 text-center">
-            <a href="https://github.com/RyuuZK" 
-               target="_blank" 
-               class="inline-flex items-center gap-2 bg-neutral-900 hover:bg-neutral-850 border border-neutral-800 hover:border-neutral-700 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300">
-                <i class="fa-brands fa-github text-base"></i> Explorar meu GitHub Completo
-            </a>
-        </div>
-    </section>
-
-    <section id="servicos" class="max-w-5xl mx-auto px-4 py-20 border-t border-neutral-900">
-        <div class="text-center max-w-2xl mx-auto mb-16">
-            <h2 class="text-3xl font-bold tracking-tight">Soluções digitais que geram resultados</h2>
-            <p class="text-neutral-400 mt-4">Não compro templates prontos e pesados. Desenvolvo a estrutura ideal focada na velocidade e na experiência do seu cliente.</p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="p-6 bg-neutral-900/50 border border-neutral-850 rounded-2xl hover:border-cyan-500/30 transition-all duration-300 group">
-                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-500 group-hover:text-neutral-950 transition-all duration-300">
-                    <i class="fa-solid fa-rocket text-xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-3">Landing Pages</h3>
-                <p class="text-neutral-400 text-sm leading-relaxed">Páginas de vendas de alta conversão. Ideais para campanhas de anúncios no Google e Instagram para profissionais e comércios locais.</p>
-            </div>
-            <div class="p-6 bg-neutral-900/50 border border-neutral-850 rounded-2xl hover:border-cyan-500/30 transition-all duration-300 group">
-                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-500 group-hover:text-neutral-950 transition-all duration-300">
-                    <i class="fa-solid fa-building text-xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-3">Sites Institucionais</h3>
-                <p class="text-neutral-400 text-sm leading-relaxed">A presença oficial que a sua empresa precisa. Páginas estruturadas para apresentar sua história, serviços, diferenciais e contato.</p>
-            </div>
-            <div class="p-6 bg-neutral-900/50 border border-neutral-850 rounded-2xl hover:border-cyan-500/30 transition-all duration-300 group">
-                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-500 group-hover:text-neutral-950 transition-all duration-300">
-                    <i class="fa-solid fa-mobile-screen text-xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-3">Design Otimizado</h3>
-                <p class="text-neutral-450 text-sm leading-relaxed">Seu site abre instantaneamente em qualquer tela de celular, tablet ou desktop, sem quebras e sem lentidão.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contato" class="max-w-4xl mx-auto px-4 py-20 border-t border-neutral-900 text-center">
-        <div class="bg-gradient-to-b from-neutral-900 to-neutral-950 border border-neutral-850 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-            <div class="absolute -top-24 -right-24 w-48 h-48 bg-cyan-500/10 blur-3xl rounded-full"></div>
-            <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-blue-500/10 blur-3xl rounded-full"></div>
-            
-            <h2 class="text-3xl font-bold tracking-tight">Vamos tirar o seu projeto do papel?</h2>
-            <p class="text-neutral-450 mt-4 max-w-lg mx-auto">
-                Clique no botão abaixo para conversar comigo pelo WhatsApp. Vamos alinhar uma proposta sem compromisso para criar o site ideal para o seu negócio.
+            <p class="text-neutral-400 text-base md:text-lg leading-relaxed max-w-xl"
+               data-pt="Eu desenvolvo de tudo. Atualmente no 2º ano de Engenharia na FURG, foco em criar soluções de software robustas, mecânicas de jogos imersivas e automações eficientes."
+               data-en="I build everything. Currently in my 2nd year of Engineering at FURG, I focus on creating robust software solutions, immersive game mechanics, and efficient automations.">
+                I build everything. Currently in my 2nd year of Engineering at FURG, I focus on creating robust software solutions, immersive game mechanics, and efficient automations.
             </p>
-            <div class="mt-8">
-                <a href="https://wa.me/5553991736770?text=Olá!%20Acessei%20seu%20portfólio%20e%20gostaria%20de%20um%20orçamento%20para%20um%20site." 
-                   target="_blank" 
-                   class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-bold px-8 py-4 rounded-xl transition-all duration-300 shadow-lg shadow-emerald-500/10">
-                    <i class="fa-brands fa-whatsapp text-xl"></i> Chamar no WhatsApp
-                </a>
+
+            <div class="bg-[#131a20] border border-neutral-800 p-6 rounded-sm w-full max-w-xl">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-2">
+                    <div class="tech-tag"><span class="tech-dot bg-blue-500"></span> C / C++</div>
+                    <div class="tech-tag"><span class="tech-dot bg-yellow-400"></span> Python</div>
+                    <div class="tech-tag"><span class="tech-dot bg-purple-500"></span> C#</div>
+                    <div class="tech-tag"><span class="tech-dot bg-blue-400"></span> Lua</div>
+                    <div class="tech-tag"><span class="tech-dot bg-cyan-400"></span> Tailwind / Web</div>
+                    <div class="tech-tag"><span class="tech-dot bg-neutral-500"></span> SQL</div>
+                </div>
+            </div>
+
+            <!-- NVIDIA badge -->
+            <button onclick="openCertModal()"
+                class="p-5 bg-[#131a20]/60 border border-emerald-500/30 hover:border-emerald-400/60 rounded-sm flex items-center gap-5 max-w-xl w-full text-left transition group">
+                <div class="flex-shrink-0 w-14 h-14 bg-emerald-500/10 rounded-sm flex items-center justify-center">
+                    <!-- NVIDIA wordmark SVG limpo -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 28" class="w-20" fill="#76b900">
+                        <path d="M13.08 0v3.12C9.18 3.45 5.63 5.6 3.2 8.88L0 6.3C2.87 2.8 7.7.55 13.08 0zm0 6.24v3.12C10.5 9.76 8.4 11.78 7.2 14.4l-2.96-2.4C5.9 8.9 9.2 6.86 13.08 6.24zM0 11.82l2.96 2.4C1.38 16.16.78 18.36.78 20.7c0 2.34.6 4.54 1.68 6.48L0 29.34C-1.3 26.76-2 23.82-2 20.7c0-3.12.7-6.06 2-8.88zm13.08 3.12v3.12c-1.3.82-2.16 2.28-2.16 3.96 0 1.68.86 3.14 2.16 3.96v3.12c-4.2-.68-7.42-3.52-8.6-7.24a11.1 11.1 0 01-.36-2.84c0-4.02 2.18-7.54 5.46-9.4l3.5.32zm0 10.2v3.14c-3.82-.7-6.96-3.2-8.6-6.62l2.4-1.96c1.2 2.68 3.54 4.9 6.2 5.44zM16.92 0c5.38.55 10.21 2.8 13.08 6.3l-3.2 2.58C24.37 5.6 20.82 3.45 16.92 3.12V0zm0 6.24c3.88.62 7.18 2.66 9.04 5.52l-2.96 2.4c-1.2-2.62-3.3-4.64-6.08-5.8V6.24zm14.16 5.58C32.3 14.52 33 17.46 33 20.58c0 3.12-.7 6.06-2 8.76l-2.96-2.4c1.08-1.94 1.68-4.14 1.68-6.48 0-2.34-.6-4.54-1.68-6.48l2.04-2.16zM16.92 25.14v3.14c-2.66-.54-5-2.76-6.2-5.44l2.4-1.96c.86 1.9 2.2 3.52 3.8 4.26zm0-7.86v3.12c-1.3-.82-2.16-2.28-2.16-3.96 0-1.68.86-3.14 2.16-3.96v-2.88c-3.28 1.86-5.46 5.38-5.46 9.4 0 .98.12 1.94.36 2.84 1.18 3.72 4.4 6.56 8.6 7.24v-3.12c-.9-.28-2.5-1.82-3.5-5.32V17.28zm0 0"/>
+                        <text x="40" y="21" font-family="Arial Black,sans-serif" font-weight="900" font-size="20" letter-spacing="0.5" fill="#76b900">NVIDIA</text>
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h5 class="text-white font-bold font-syne text-sm md:text-base group-hover:text-emerald-400 transition">NVIDIA Certified</h5>
+                    <p class="text-emerald-400 font-mono text-xs mt-0.5">Fundamentals of Deep Learning</p>
+                    <p class="text-neutral-600 font-mono text-[10px] mt-1" data-pt="Clique para ver o certificado" data-en="Click to view certificate">Click to view certificate</p>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square text-neutral-600 group-hover:text-emerald-400 transition text-xs"></i>
+            </button>
+
+            <div class="pt-2">
+                <button onclick="switchPage('sobre')" class="bg-white hover:bg-neutral-200 text-black font-bold px-8 py-4 rounded-sm flex items-center gap-3 text-sm uppercase tracking-wider transition-all duration-300">
+                    <i class="fa-solid fa-book-open text-xs"></i>
+                    <span data-pt="Leia minha história completa" data-en="Read my full story">Read my full story</span>
+                </button>
             </div>
         </div>
-    </section>
 
-    <footer class="border-t border-neutral-900 py-8 text-center text-xs text-neutral-600">
-        <p>&copy; 2026 RyuuK. Desenvolvido com foco em performance.</p>
-    </footer>
+        <!-- Foto -->
+        <div class="lg:col-span-5 flex justify-center lg:justify-end pt-4 lg:pl-12">
+            <div class="relative group w-full max-w-[340px]">
+                <div class="absolute -inset-2 border border-cyan-400/20 rounded-sm pointer-events-none group-hover:border-cyan-400/40 transition duration-300"></div>
+                <div class="scanline-effect relative overflow-hidden bg-[#131a20] border-2 border-neutral-800 p-2">
+                    <img src="foto.png" alt="Gianluca Oliveira" class="w-full grayscale contrast-125 brightness-90 group-hover:grayscale-0 transition duration-500 object-cover aspect-[3/4]">
+                </div>
+            </div>
+        </div>
 
+    </div>
+</section>
+
+<!-- ════════════ PORTFÓLIO ════════════ -->
+<section id="page-portfolio" class="page-content bg-[#080b0d] border-t border-b border-neutral-900 py-20">
+    <div class="max-w-5xl mx-auto px-6">
+
+        <div class="inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-sm mb-4 uppercase tracking-widest font-mono">
+            <i class="fa-brands fa-github"></i> <span data-pt="REPOSITÓRIOS CORE" data-en="CORE REPOSITORIES">CORE REPOSITORIES</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-syne font-extrabold text-white tracking-tight mb-12"
+            data-pt="Projetos & Código" data-en="Projects & Code">Projects & Code</h2>
+
+        <!-- Cards de projeto -->
+        <div class="grid md:grid-cols-2 gap-6 mb-20">
+
+            <a href="https://github.com/RyuuZK/Jogo-1o-ano." target="_blank" rel="noopener"
+               class="p-6 bg-[#0b0f12] border border-neutral-800 hover:border-cyan-400/50 rounded-sm flex flex-col justify-between transition-all duration-300 group relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-[2px] h-0 bg-cyan-400 group-hover:h-full transition-all duration-500"></div>
+                <div>
+                    <div class="flex items-center gap-2.5 text-neutral-200 font-semibold text-base tracking-wide group-hover:text-cyan-400 transition">
+                        <i class="fa-regular fa-folder text-cyan-400"></i> Rogue Game
+                    </div>
+                    <p class="text-neutral-400 text-sm mt-4 leading-relaxed"
+                       data-pt="Jogo no estilo Rogue desenvolvido durante o 1º ano acadêmico. Inclui geração procedural de mapas, sistema de combate e progressão de personagem."
+                       data-en="Rogue-style game developed during my 1st academic year. Includes procedural map generation, combat system and character progression.">
+                        Rogue-style game developed during my 1st academic year. Includes procedural map generation, combat system and character progression.
+                    </p>
+                </div>
+                <div class="mt-8 flex items-center justify-between text-xs font-mono text-neutral-500">
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-yellow-400"></span> Python</span>
+                    <span class="text-neutral-700 group-hover:text-cyan-400 transition"><span data-pt="Ver no GitHub" data-en="View on GitHub">View on GitHub</span> →</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/RyuuZK/primeiro-projeto." target="_blank" rel="noopener"
+               class="p-6 bg-[#0b0f12] border border-neutral-800 hover:border-cyan-400/50 rounded-sm flex flex-col justify-between transition-all duration-300 group relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-[2px] h-0 bg-cyan-400 group-hover:h-full transition-all duration-500"></div>
+                <div>
+                    <div class="flex items-center gap-2.5 text-neutral-200 font-semibold text-base tracking-wide group-hover:text-cyan-400 transition">
+                        <i class="fa-regular fa-folder text-cyan-400"></i> Pokémon Game
+                    </div>
+                    <p class="text-neutral-400 text-sm mt-4 leading-relaxed"
+                       data-pt="Simulação de batalhas e mecânicas de Pokémon desenvolvida de forma autônoma antes mesmo de ingressar na FURG. Primeiro projeto de jogo autoral."
+                       data-en="Pokémon battle simulation and mechanics developed autonomously before joining FURG. My first original game project.">
+                        Pokémon battle simulation and mechanics developed autonomously before joining FURG. My first original game project.
+                    </p>
+                </div>
+                <div class="mt-8 flex items-center justify-between text-xs font-mono text-neutral-500">
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-yellow-400"></span> Python</span>
+                    <span class="text-neutral-700 group-hover:text-cyan-400 transition"><span data-pt="Ver no GitHub" data-en="View on GitHub">View on GitHub</span> →</span>
+                </div>
+            </a>
+
+            <!-- Card: Roblox FPS -->
+            <div class="p-6 bg-[#0b0f12] border border-neutral-800 hover:border-purple-400/50 rounded-sm flex flex-col justify-between transition-all duration-300 group relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-[2px] h-0 bg-purple-400 group-hover:h-full transition-all duration-500"></div>
+                <div>
+                    <div class="flex items-center gap-2.5 text-neutral-200 font-semibold text-base tracking-wide group-hover:text-purple-400 transition">
+                        <i class="fa-solid fa-crosshairs text-purple-400"></i> FPS System — Roblox
+                    </div>
+                    <p class="text-neutral-400 text-sm mt-4 leading-relaxed"
+                       data-pt="Sistema de tiro realista para Roblox Studio: mira customizável, traçante de bala, cápsulas ejetadas, fumaça e marcas de bala dinâmicas."
+                       data-en="Realistic shooting system for Roblox Studio: customizable crosshair, bullet tracers, ejected casings, smoke and dynamic bullet holes.">
+                        Realistic shooting system for Roblox Studio: customizable crosshair, bullet tracers, ejected casings, smoke and dynamic bullet holes.
+                    </p>
+                </div>
+                <div class="mt-8 flex items-center justify-between text-xs font-mono text-neutral-500">
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Lua</span>
+                    <span class="text-xs text-neutral-700 font-mono">Roblox Studio</span>
+                </div>
+            </div>
+
+            <!-- Card: Deep Learning NVIDIA -->
+            <div onclick="openCertModal()"
+                 class="p-6 bg-[#0b0f12] border border-emerald-900/50 hover:border-emerald-400/50 rounded-sm flex flex-col justify-between transition-all duration-300 group relative overflow-hidden cursor-pointer">
+                <div class="absolute top-0 left-0 w-[2px] h-0 bg-emerald-400 group-hover:h-full transition-all duration-500"></div>
+                <div>
+                    <div class="flex items-center gap-2.5 text-neutral-200 font-semibold text-base tracking-wide group-hover:text-emerald-400 transition">
+                        <i class="fa-solid fa-brain text-emerald-400"></i> Deep Learning — NVIDIA
+                    </div>
+                    <p class="text-neutral-400 text-sm mt-4 leading-relaxed"
+                       data-pt="Certificação NVIDIA em Fundamentos de Deep Learning. Abrange redes neurais, treinamento de modelos, CNNs e aplicações de IA com frameworks modernos."
+                       data-en="NVIDIA Certification in Fundamentals of Deep Learning. Covers neural networks, model training, CNNs and AI applications with modern frameworks.">
+                        NVIDIA Certification in Fundamentals of Deep Learning. Covers neural networks, model training, CNNs and AI applications with modern frameworks.
+                    </p>
+                </div>
+                <div class="mt-8 flex items-center justify-between text-xs font-mono text-neutral-500">
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Python / CUDA</span>
+                    <span class="text-neutral-700 group-hover:text-emerald-400 transition"><span data-pt="Ver certificado" data-en="View certificate">View certificate</span> →</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── Vídeos ── -->
+        <div class="space-y-8">
+            <h3 class="text-2xl md:text-3xl font-syne font-extrabold text-white tracking-tight"
+                data-pt="Demonstrações em Vídeo" data-en="Video Previews">Video Previews</h3>
+
+            <div class="grid md:grid-cols-2 gap-8">
+
+                <!-- Vídeo 1: Pokémon -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="gameppok.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Gameplay Pokémon" data-en="Pokémon Gameplay">Pokémon Gameplay</h4>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Batalhas e mecânicas autorais" data-en="Original battle & game mechanics">Original battle & game mechanics</p>
+                </div>
+
+                <!-- Vídeo 2: Mag -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="gamepmag.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Mecânica de Jogo" data-en="Game Mechanics">Game Mechanics</h4>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de combate e física" data-en="Combat system & physics">Combat system & physics</p>
+                </div>
+
+                <!-- Vídeo 3: Betinha-Chan Discord Bot -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="betinha.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="flex items-center gap-2 px-1">
+                        <h4 class="text-white font-semibold font-syne" data-pt="Betinha-Chan — Bot Discord" data-en="Betinha-Chan — Discord Bot">Betinha-Chan — Discord Bot</h4>
+                        <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-sm">APP</span>
+                    </div>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Bot de Discord autoral com comandos customizados, eventos e integração com APIs externas." data-en="Original Discord bot with custom commands, events and external API integration.">Original Discord bot with custom commands, events and external API integration.</p>
+                </div>
+                <!-- Vídeo: Sistema Pet Roblox -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="petroblox.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Sistema Pet" data-en="Pet System">Pet System</h4>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de pets para Roblox com movimentação e follow" data-en="Roblox pet system with movement and follow mechanics">Roblox pet system with movement and follow mechanics</p>
+                </div>
+
+                <!-- Vídeo: Sistema Voo Roblox -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="voo.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Sistema de Voo" data-en="Flight System">Flight System</h4>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de voo para Roblox com física e controles fluidos" data-en="Flight system for Roblox with physics and fluid controls">Flight system for Roblox with physics and fluid controls</p>
+                </div>
+               <!-- Vídeo: Sistema Ragdoll Roblox -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="ragdoll.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Sistema Ragdoll" data-en="Ragdoll System">Ragdoll System</h4>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de ragdoll para Roblox com física dinâmica" data-en="Roblox ragdoll system with dynamic physics">Roblox ragdoll system with dynamic physics</p>
+                </div>
+                <!-- Vídeo: Coming Soon -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-coming-soon">
+                        <i class="fa-solid fa-film text-2xl" style="color:#1f2a35"></i>
+                        <span class="text-xs font-mono tracking-widest" style="color:#1f2a35" data-pt="EM BREVE" data-en="COMING SOON">COMING SOON</span>
+                    </div>
+                    <h4 class="text-neutral-700 font-semibold font-syne px-1" data-pt="Novo projeto em desenvolvimento" data-en="New project in development">New project in development</h4>
+                    <p class="text-neutral-800 text-xs font-mono px-1">— — —</p>
+                </div>
+
+            </div><!-- /grid md:grid-cols-2 videos -->
+        </div><!-- /space-y-8 -->
+
+        <div class="mt-14 text-center">
+            <a href="https://github.com/RyuuZK" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-2 bg-[#131a20] hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-600 text-white px-6 py-3 rounded-sm text-sm font-medium transition duration-300">
+                <i class="fa-brands fa-github text-base"></i>
+                <span data-pt="Explorar meu GitHub Completo" data-en="Explore my Full GitHub">Explore my Full GitHub</span>
+            </a>
+        </div>
+
+    </div><!-- /max-w-5xl -->
+</section>
+
+<!-- ════════════ SOBRE ════════════ -->
+<section id="page-sobre" class="page-content max-w-5xl mx-auto px-6 py-20">
+    <div class="grid md:grid-cols-12 gap-12 items-start">
+
+        <div class="md:col-span-7 space-y-6 order-2 md:order-1">
+            <div class="inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-sm uppercase tracking-widest font-mono">
+                // 02 • <span data-pt="MINHA JORNADA" data-en="MY JOURNEY">MY JOURNEY</span>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-syne font-extrabold text-white tracking-tight leading-none"
+                data-pt="Construindo universos através do código."
+                data-en="Building universes through code.">Building universes through code.</h2>
+
+            <!-- Foto mobile -->
+            <div class="relative group w-full max-w-xs md:hidden">
+                <div class="scanline-effect overflow-hidden bg-[#131a20] border-2 border-neutral-800 p-1.5 rounded-sm">
+                    <img src="foto.png" alt="Gianluca Oliveira" class="w-full grayscale contrast-110 group-hover:grayscale-0 transition duration-500 object-cover aspect-[4/3] rounded-sm">
+                </div>
+            </div>
+
+            <div class="text-neutral-400 space-y-4 leading-relaxed text-base md:text-lg">
+                <p data-pt="Minha relação com o desenvolvimento começou cedo, aos 16 anos, quando criei minhas primeiras linhas de código estruturando sites e interfaces web. O que começou como curiosidade rapidamente virou paixão quando descobri o poder de contar histórias interativas através da programação, desenvolvendo Visual Novels completas utilizando a engine Ren'Py."
+                   data-en="My relationship with development started early, at 16, when I wrote my first lines of code building websites and web interfaces. What began as curiosity quickly became a passion when I discovered the power of interactive storytelling through programming — developing complete Visual Novels using the Ren'Py engine.">
+                    My relationship with development started early, at 16, when I wrote my first lines of code building websites and web interfaces. What began as curiosity quickly became a passion when I discovered the power of interactive storytelling through programming — developing complete Visual Novels using the Ren'Py engine.
+                </p>
+                <p data-pt="Buscando expandir os limites da interatividade e lógica complexa, passei a explorar ambientes tridimensionais programando comportamentos e ecossistemas dinâmicos no Roblox Studio via Lua. Essa bagagem experimental e multidisciplinar moldou meu raciocínio lógico e me trouxe até a graduação em Engenharia de Computação na FURG, onde atualmente curso o segundo ano."
+                   data-en="Seeking to push the boundaries of interactivity and complex logic, I moved into three-dimensional environments — programming dynamic behaviors and ecosystems in Roblox Studio via Lua. That experimental, multidisciplinary background shaped my problem-solving mindset and brought me to Computer Engineering at FURG, where I am currently in my second year.">
+                    Seeking to push the boundaries of interactivity and complex logic, I moved into three-dimensional environments — programming dynamic behaviors and ecosystems in Roblox Studio via Lua. That experimental, multidisciplinary background shaped my problem-solving mindset and brought me to Computer Engineering at FURG, where I am currently in my second year.
+                </p>
+                <p data-pt="Hoje, concilio o rigor científico da engenharia com o desenvolvimento prático. Já trabalhei ativamente na criação de 2 jogos autorais, aplicando conceitos de arquitetura de software, física e inteligência artificial. Além disso, expando meus horizontes acadêmicos participando diretamente de projetos de pesquisa e extensão universitários, focando no desenvolvimento de soluções tecnológicas robustas de alto desempenho."
+                   data-en="Today I balance the scientific rigor of engineering with hands-on development. I have built 2 original games applying software architecture, physics, and AI concepts — and I expand my academic reach through university research and extension projects, focusing on robust, high-performance technological solutions.">
+                    Today I balance the scientific rigor of engineering with hands-on development. I have built 2 original games applying software architecture, physics, and AI concepts — and I expand my academic reach through university research and extension projects, focusing on robust, high-performance technological solutions.
+                </p>
+            </div>
+        </div>
+
+        <!-- Sidebar desktop -->
+        <div class="md:col-span-5 space-y-6 sticky top-24 order-1 md:order-2">
+            <div class="relative group hidden md:block">
+                <div class="scanline-effect overflow-hidden bg-[#131a20] border-2 border-neutral-800 p-1.5 rounded-sm">
+                    <img src="foto.png" alt="Gianluca Oliveira" class="w-full grayscale contrast-110 brightness-90 group-hover:grayscale-0 transition duration-500 object-cover aspect-[4/3] rounded-sm">
+                </div>
+            </div>
+
+            <div class="bg-neutral-900/50 p-6 border border-neutral-800 rounded-sm">
+                <h4 class="text-cyan-400 font-mono text-sm mb-4 uppercase tracking-widest">// Skills_Log</h4>
+                <ul class="space-y-2.5 text-neutral-400 text-sm font-mono">
+                    <li>> C / C++ Core & Optimization</li>
+                    <li>> Python Scripting & Data</li>
+                    <li>> C# Engine Architecture (Unity)</li>
+                    <li>> Lua Environment Scripting</li>
+                    <li>> Object-Oriented Programming</li>
+                    <li>> Ren'Py Engine Architecture</li>
+                    <li>> UI/UX Layouts with Tailwind</li>
+                    <li>> Algorithms & Data Structures</li>
+                    <li>> Deep Learning (NVIDIA Certified)</li>
+                    <li>> Academic Research & Extension</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ════════════ SERVIÇOS ════════════ -->
+<section id="page-servicos" class="page-content bg-[#080b0d] border-t border-neutral-900 py-20">
+    <div class="max-w-4xl mx-auto px-6">
+
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold text-cyan-400 border border-cyan-500/20 rounded-sm uppercase tracking-widest font-mono mb-4">
+                // 03 • <span data-pt="VAMOS CONVERSAR" data-en="LET'S TALK">LET'S TALK</span>
+            </div>
+            <h2 class="text-4xl md:text-6xl font-syne font-extrabold text-white tracking-tight mb-4">
+                <span data-pt="Tem algo para" data-en="Got something to">Got something to</span>
+                <span class="text-cyan-400" data-pt="construir?" data-en="build?">build?</span>
+            </h2>
+            <p class="text-neutral-400 text-sm md:text-base max-w-md mx-auto"
+               data-pt="WhatsApp é a forma mais rápida de me encontrar. Estou disponível para novos projetos."
+               data-en="WhatsApp is the fastest way to reach me. Available for new projects.">
+                WhatsApp is the fastest way to reach me. Available for new projects.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <div class="p-6 bg-[#0b0f12] border border-neutral-800 hover:border-cyan-400/40 rounded-sm transition flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-3 text-white font-bold font-syne text-lg">
+                        <i class="fa-solid fa-gamepad text-cyan-400 text-base"></i> Games
+                    </div>
+                    <p class="text-neutral-400 text-xs md:text-sm mt-4 leading-relaxed"
+                       data-pt="Desenvolvimento completo de sistemas, mecânicas personalizadas, física e IA para ecossistemas e experiências imersivas."
+                       data-en="Full development of systems, custom mechanics, physics, and AI for ecosystems and immersive experiences.">
+                        Full development of systems, custom mechanics, physics, and AI for ecosystems and immersive experiences.
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-6 bg-[#0b0f12] border border-neutral-800 hover:border-cyan-400/40 rounded-sm transition flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-3 text-white font-bold font-syne text-lg">
+                        <i class="fa-solid fa-layer-group text-cyan-400 text-base"></i> Web Apps
+                    </div>
+                    <p class="text-neutral-400 text-xs md:text-sm mt-4 leading-relaxed"
+                       data-pt="Criação de landing pages estruturadas, portfólios modernos e aplicações web elegantes com alta performance."
+                       data-en="Creation of structured landing pages, modern portfolios, and elegant web applications with high performance.">
+                        Creation of structured landing pages, modern portfolios, and elegant web applications with high performance.
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-6 bg-[#0b0f12] border border-neutral-800 hover:border-cyan-400/40 rounded-sm transition flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-3 text-white font-bold font-syne text-lg">
+                        <i class="fa-solid fa-code text-cyan-400 text-base"></i> Scripts
+                    </div>
+                    <p class="text-neutral-400 text-xs md:text-sm mt-4 leading-relaxed"
+                       data-pt="Automação de processos internos, ferramentas customizadas de desenvolvimento e utilitários robustos em C, Python ou Lua."
+                       data-en="Internal process automation, custom development tools, and robust utilities in C, Python, or Lua.">
+                        Internal process automation, custom development tools, and robust utilities in C, Python, or Lua.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-xl mx-auto mb-8">
+            <a href="https://wa.me/5553991736770" target="_blank" rel="noopener"
+               class="p-5 bg-[#11161b] border border-neutral-800 hover:border-emerald-500/50 rounded-sm flex items-center justify-between transition group">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-emerald-500/10 text-emerald-400 rounded-sm flex items-center justify-center text-lg">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="text-[10px] font-mono font-bold tracking-widest text-neutral-500 uppercase">WHATSAPP</div>
+                        <div class="text-white font-mono text-sm group-hover:text-emerald-400 transition">+55 (53) 99173-6770</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-arrow-right text-neutral-600 group-hover:text-emerald-400 group-hover:translate-x-1 transition text-sm pr-2"></i>
+            </a>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-2 text-xs font-mono">
+            <a href="https://github.com/RyuuZK" target="_blank" rel="noopener" class="px-4 py-2 bg-[#0e1216] border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-600 transition flex items-center gap-2 rounded-full">
+                <i class="fa-brands fa-github text-sm"></i> GitHub
+            </a>
+            <a href="https://discord.com/users/830113264906371112" target="_blank" rel="noopener" class="px-4 py-2 bg-[#0e1216] border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-600 transition flex items-center gap-2 rounded-full">
+                <i class="fa-brands fa-discord text-sm"></i> Discord
+            </a>
+            <a href="https://www.instagram.com/lucca_krz/" target="_blank" rel="noopener" class="px-4 py-2 bg-[#0e1216] border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-600 transition flex items-center gap-2 rounded-full">
+                <i class="fa-brands fa-instagram text-sm"></i> Instagram
+            </a>
+            <a href="https://x.com/ryuu_zk" target="_blank" rel="noopener" class="px-4 py-2 bg-[#0e1216] border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-600 transition flex items-center gap-2 rounded-full">
+                <i class="fa-brands fa-x-twitter text-sm"></i> Twitter
+            </a>
+        </div>
+
+    </div>
+</section>
+
+</main>
+
+<footer class="border-t border-neutral-900 py-8 text-center text-xs text-neutral-600 font-mono mt-auto uppercase tracking-widest">
+    <p>&copy; 2026 Gianluca // Engineered for performance</p>
+</footer>
+
+<script>
+// ── Páginas com hash URL ──────────────────────────────────────────
+const validPages = ['home','portfolio','sobre','servicos'];
+let currentPage = null;
+
+// ── Play overlay nos vídeos ───────────────────────────────────────
+function playVideo(overlay) {
+    overlay.classList.add('hidden');
+    const video = overlay.parentElement.querySelector('video');
+    video.play();
+    // Restaura overlay quando o vídeo terminar
+    video.addEventListener('ended', () => {
+        overlay.classList.remove('hidden');
+    }, { once: true });
+}
+
+// Pausa todos os vídeos e restaura seus overlays
+function pauseAllVideos() {
+    document.querySelectorAll('video').forEach(video => {
+        if (!video.paused) {
+            video.pause();
+            const overlay = video.parentElement.querySelector('.video-overlay');
+            if (overlay) overlay.classList.remove('hidden');
+        }
+    });
+}
+
+function switchPage(pageId) {
+    if (!validPages.includes(pageId)) pageId = 'home';
+    // Evita re-render desnecessário se já está na página
+    if (pageId === currentPage) return;
+    currentPage = pageId;
+    // Pausa vídeos ao sair da página
+    pauseAllVideos();
+    document.querySelectorAll('.page-content').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('page-' + pageId);
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(link => {
+        const isActive = link.getAttribute('data-page') === pageId;
+        link.classList.toggle('text-cyan-400', isActive);
+        link.classList.toggle('font-semibold', isActive);
+        link.classList.toggle('text-neutral-400', !isActive);
+        link.classList.toggle('active-mobile', isActive);
+    });
+    history.pushState({ page: pageId }, '', '#' + pageId);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+window.addEventListener('popstate', e => {
+    const page = e.state?.page || getHashPage();
+    // Reseta currentPage para forçar a troca ao navegar pelo histórico
+    currentPage = null;
+    switchPage(page);
+});
+
+function getHashPage() {
+    const h = location.hash.replace('#','');
+    return validPages.includes(h) ? h : 'home';
+}
+switchPage(getHashPage());
+
+// ── Idioma — persiste no localStorage ────────────────────────────
+let currentLang = localStorage.getItem('lang') || 'en';
+
+function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    // Aplica textos apenas em elementos folha (sem filhos de elemento)
+    document.querySelectorAll('[data-pt]').forEach(el => {
+        if (!el.querySelector('[data-pt]')) {
+            el.textContent = el.getAttribute('data-' + lang);
+        }
+    });
+    // Atualiza lang no <html> para acessibilidade
+    document.documentElement.lang = lang;
+}
+// Aplica idioma salvo (ou inglês) no carregamento
+setLang(currentLang);
+
+// ── Menu mobile ───────────────────────────────────────────────────
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+const hamLines   = hamburger.querySelectorAll('.ham-line');
+let menuOpen = false;
+
+hamburger.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    if (menuOpen) {
+        hamLines[0].style.cssText = 'transform:translateY(8px) rotate(45deg)';
+        hamLines[1].style.cssText = 'opacity:0';
+        hamLines[2].style.cssText = 'transform:translateY(-8px) rotate(-45deg)';
+    } else {
+        hamLines.forEach(l => l.style.cssText = '');
+    }
+});
+
+function closeMobileMenu() {
+    menuOpen = false;
+    mobileMenu.classList.remove('open');
+    hamLines.forEach(l => l.style.cssText = '');
+}
+
+// ── Modal certificado ─────────────────────────────────────────────
+function openCertModal() {
+    document.getElementById('cert-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeCertModal() {
+    document.getElementById('cert-modal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCertModal(); });
+</script>
 </body>
 </html>
