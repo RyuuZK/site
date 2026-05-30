@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <link rel="icon" type="image/ico" href="favicon.ico">
-    
+
+    <link rel="icon" type="image/png" href="favicon.ico">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gianluca | Computer Engineer & Game / Software Developer</title>
@@ -110,6 +111,17 @@
             gap: 10px; aspect-ratio: 16/9;
             color: #374151;
         }
+
+        /* ── Fix Skills Log mobile ── */
+        #skills-log-sidebar {
+            position: static !important;
+        }
+        @media (min-width: 768px) {
+            #skills-log-sidebar {
+                position: sticky !important;
+                top: 6rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-[#0b0f12] text-neutral-200 font-space antialiased selection:bg-cyan-400 selection:text-black min-h-screen flex flex-col">
@@ -200,7 +212,6 @@
             <button onclick="openCertModal()"
                 class="p-5 bg-[#131a20]/60 border border-emerald-500/30 hover:border-emerald-400/60 rounded-sm flex items-center gap-5 max-w-xl w-full text-left transition group">
                 <div class="flex-shrink-0 w-14 h-14 bg-emerald-500/10 rounded-sm flex items-center justify-center">
-                    <!-- NVIDIA wordmark SVG limpo -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 28" class="w-20" fill="#76b900">
                         <path d="M13.08 0v3.12C9.18 3.45 5.63 5.6 3.2 8.88L0 6.3C2.87 2.8 7.7.55 13.08 0zm0 6.24v3.12C10.5 9.76 8.4 11.78 7.2 14.4l-2.96-2.4C5.9 8.9 9.2 6.86 13.08 6.24zM0 11.82l2.96 2.4C1.38 16.16.78 18.36.78 20.7c0 2.34.6 4.54 1.68 6.48L0 29.34C-1.3 26.76-2 23.82-2 20.7c0-3.12.7-6.06 2-8.88zm13.08 3.12v3.12c-1.3.82-2.16 2.28-2.16 3.96 0 1.68.86 3.14 2.16 3.96v3.12c-4.2-.68-7.42-3.52-8.6-7.24a11.1 11.1 0 01-.36-2.84c0-4.02 2.18-7.54 5.46-9.4l3.5.32zm0 10.2v3.14c-3.82-.7-6.96-3.2-8.6-6.62l2.4-1.96c1.2 2.68 3.54 4.9 6.2 5.44zM16.92 0c5.38.55 10.21 2.8 13.08 6.3l-3.2 2.58C24.37 5.6 20.82 3.45 16.92 3.12V0zm0 6.24c3.88.62 7.18 2.66 9.04 5.52l-2.96 2.4c-1.2-2.62-3.3-4.64-6.08-5.8V6.24zm14.16 5.58C32.3 14.52 33 17.46 33 20.58c0 3.12-.7 6.06-2 8.76l-2.96-2.4c1.08-1.94 1.68-4.14 1.68-6.48 0-2.34-.6-4.54-1.68-6.48l2.04-2.16zM16.92 25.14v3.14c-2.66-.54-5-2.76-6.2-5.44l2.4-1.96c.86 1.9 2.2 3.52 3.8 4.26zm0-7.86v3.12c-1.3-.82-2.16-2.28-2.16-3.96 0-1.68.86-3.14 2.16-3.96v-2.88c-3.28 1.86-5.46 5.38-5.46 9.4 0 .98.12 1.94.36 2.84 1.18 3.72 4.4 6.56 8.6 7.24v-3.12c-.9-.28-2.5-1.82-3.5-5.32V17.28zm0 0"/>
                         <text x="40" y="21" font-family="Arial Black,sans-serif" font-weight="900" font-size="20" letter-spacing="0.5" fill="#76b900">NVIDIA</text>
@@ -334,7 +345,7 @@
 
             <div class="grid md:grid-cols-2 gap-8">
 
-                <!-- Vídeo 1: Pokémon -->
+                <!-- Vídeo 1: FPS System -->
                 <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
                     <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
                         <div class="video-overlay" onclick="playVideo(this)">
@@ -342,75 +353,14 @@
                             <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
                         </div>
                         <video class="w-full h-full object-cover" controls preload="none">
-                            <source src="gameppok.mp4" type="video/mp4">
+                            <source src="SystemFPS.mp4" type="video/mp4">
                         </video>
                     </div>
-                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Gameplay Pokémon" data-en="Pokémon Gameplay">Pokémon Gameplay</h4>
-                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Batalhas e mecânicas autorais" data-en="Original battle & game mechanics">Original battle & game mechanics</p>
+                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Sistema FPS" data-en="FPS System">FPS System</h4>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de tiro desenvolvido do zero em Lua para Roblox Studio." data-en="Shooting system built from scratch in Lua for Roblox Studio.">Shooting system built from scratch in Lua for Roblox Studio.</p>
                 </div>
 
-                <!-- Vídeo 2: Mag -->
-                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
-                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
-                        <div class="video-overlay" onclick="playVideo(this)">
-                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
-                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
-                        </div>
-                        <video class="w-full h-full object-cover" controls preload="none">
-                            <source src="gamepmag.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Mecânica de Jogo" data-en="Game Mechanics">Game Mechanics</h4>
-                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de combate e física" data-en="Combat system & physics">Combat system & physics</p>
-                </div>
-
-                <!-- Vídeo 3: Betinha-Chan Discord Bot -->
-                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
-                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
-                        <div class="video-overlay" onclick="playVideo(this)">
-                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
-                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
-                        </div>
-                        <video class="w-full h-full object-cover" controls preload="none">
-                            <source src="betinha.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="flex items-center gap-2 px-1">
-                        <h4 class="text-white font-semibold font-syne" data-pt="Betinha-Chan — Bot Discord" data-en="Betinha-Chan — Discord Bot">Betinha-Chan — Discord Bot</h4>
-                        <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-sm">APP</span>
-                    </div>
-                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Bot de Discord autoral com comandos customizados, eventos e integração com APIs externas." data-en="Original Discord bot with custom commands, events and external API integration.">Original Discord bot with custom commands, events and external API integration.</p>
-                </div>
-                <!-- Vídeo: Sistema Pet Roblox -->
-                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
-                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
-                        <div class="video-overlay" onclick="playVideo(this)">
-                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
-                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
-                        </div>
-                        <video class="w-full h-full object-cover" controls preload="none">
-                            <source src="petroblox.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Sistema Pet" data-en="Pet System">Pet System</h4>
-                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de pets para Roblox com movimentação e follow" data-en="Roblox pet system with movement and follow mechanics">Roblox pet system with movement and follow mechanics</p>
-                </div>
-
-                <!-- Vídeo: Sistema Voo Roblox -->
-                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
-                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
-                        <div class="video-overlay" onclick="playVideo(this)">
-                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
-                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
-                        </div>
-                        <video class="w-full h-full object-cover" controls preload="none">
-                            <source src="voo.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Sistema de Voo" data-en="Flight System">Flight System</h4>
-                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de voo para Roblox com física e controles fluidos" data-en="Flight system for Roblox with physics and fluid controls">Flight system for Roblox with physics and fluid controls</p>
-                </div>
-               <!-- Vídeo: Sistema Ragdoll Roblox -->
+                <!-- Vídeo 2: Ragdoll -->
                 <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
                     <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
                         <div class="video-overlay" onclick="playVideo(this)">
@@ -422,8 +372,90 @@
                         </video>
                     </div>
                     <h4 class="text-white font-semibold font-syne px-1" data-pt="Sistema Ragdoll" data-en="Ragdoll System">Ragdoll System</h4>
-                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de ragdoll para Roblox com física dinâmica" data-en="Roblox ragdoll system with dynamic physics">Roblox ragdoll system with dynamic physics</p>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de ragdoll desenvolvido do zero em Lua para Roblox Studio." data-en="Ragdoll system built from scratch in Lua for Roblox Studio.">Ragdoll system built from scratch in Lua for Roblox Studio.</p>
                 </div>
+
+                <!-- Vídeo 3: Pet System -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="petroblox.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Sistema Pet" data-en="Pet System">Pet System</h4>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de pets desenvolvido do zero em Lua para Roblox Studio." data-en="Pet system built from scratch in Lua for Roblox Studio.">Pet system built from scratch in Lua for Roblox Studio.</p>
+                </div>
+
+                <!-- Vídeo 4: Voo -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="voo.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Sistema de Voo" data-en="Flight System">Flight System</h4>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Sistema de voo desenvolvido do zero em Lua para Roblox Studio." data-en="Flight system built from scratch in Lua for Roblox Studio.">Flight system built from scratch in Lua for Roblox Studio.</p>
+                </div>
+
+                <!-- Vídeo 5: Bot LoL -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="BotLol.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="flex items-center gap-2 px-1">
+                        <h4 class="text-white font-semibold font-syne" data-pt="Bot LoL Stats — Discord" data-en="LoL Stats Bot — Discord">LoL Stats Bot — Discord</h4>
+                        <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-sm">BOT</span>
+                    </div>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Bot de Discord desenvolvido do zero para exibir estatísticas de jogadores de League of Legends." data-en="Discord bot built from scratch to display League of Legends player statistics.">Discord bot built from scratch to display League of Legends player statistics.</p>
+                </div>
+
+                <!-- Vídeo 6: Bot Futebol -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="DiscFUTBOT.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="flex items-center gap-2 px-1">
+                        <h4 class="text-white font-semibold font-syne" data-pt="Bot Futebol Stats — Discord" data-en="Football Stats Bot — Discord">Football Stats Bot — Discord</h4>
+                        <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-sm">BOT</span>
+                    </div>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Bot de Discord desenvolvido do zero para exibir estatísticas de partidas de futebol." data-en="Discord bot built from scratch to display football match statistics.">Discord bot built from scratch to display football match statistics.</p>
+                </div>
+
+                <!-- Vídeo 7: Game Mechanics -->
+                <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
+                    <div class="video-wrap scanline-effect relative overflow-hidden bg-neutral-950 aspect-video border border-neutral-800">
+                        <div class="video-overlay" onclick="playVideo(this)">
+                            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+                            <span class="video-label" data-pt="Clique para reproduzir" data-en="Click to play">Click to play</span>
+                        </div>
+                        <video class="w-full h-full object-cover" controls preload="none">
+                            <source src="gamepmag.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <h4 class="text-white font-semibold font-syne px-1" data-pt="Mecânica de Jogo" data-en="Game Mechanics">Game Mechanics</h4>
+                    <p class="text-neutral-500 text-xs font-mono px-1" data-pt="Jogo autoral desenvolvido de forma independente durante a faculdade." data-en="Original game developed independently during university.">Original game developed independently during university.</p>
+                </div>
+
                 <!-- Vídeo: Coming Soon -->
                 <div class="bg-[#0b0f12] border border-neutral-800 p-3 rounded-sm space-y-3">
                     <div class="video-coming-soon">
@@ -481,11 +513,28 @@
                     Today I balance the scientific rigor of engineering with hands-on development. I have built 2 original games applying software architecture, physics, and AI concepts — and I expand my academic reach through university research and extension projects, focusing on robust, high-performance technological solutions.
                 </p>
             </div>
+
+            <!-- Skills Log — visível apenas no mobile, abaixo do texto -->
+            <div class="md:hidden bg-neutral-900/50 p-6 border border-neutral-800 rounded-sm mt-4">
+                <h4 class="text-cyan-400 font-mono text-sm mb-4 uppercase tracking-widest">// Skills_Log</h4>
+                <ul class="space-y-2.5 text-neutral-400 text-sm font-mono">
+                    <li>> C / C++ Core & Optimization</li>
+                    <li>> Python Scripting & Data</li>
+                    <li>> C# Engine Architecture (Unity)</li>
+                    <li>> Lua Environment Scripting</li>
+                    <li>> Object-Oriented Programming</li>
+                    <li>> Ren'Py Engine Architecture</li>
+                    <li>> UI/UX Layouts with Tailwind</li>
+                    <li>> Algorithms & Data Structures</li>
+                    <li>> Deep Learning (NVIDIA Certified)</li>
+                    <li>> Academic Research & Extension</li>
+                </ul>
+            </div>
         </div>
 
         <!-- Sidebar desktop -->
-        <div class="md:col-span-5 space-y-6 sticky top-24 order-1 md:order-2">
-            <div class="relative group hidden md:block">
+        <div id="skills-log-sidebar" class="md:col-span-5 space-y-6 order-1 md:order-2 hidden md:block" style="position: sticky; top: 6rem;">
+            <div class="relative group">
                 <div class="scanline-effect overflow-hidden bg-[#131a20] border-2 border-neutral-800 p-1.5 rounded-sm">
                     <img src="foto.png" alt="Gianluca Oliveira" class="w-full grayscale contrast-110 brightness-90 group-hover:grayscale-0 transition duration-500 object-cover aspect-[4/3] rounded-sm">
                 </div>
@@ -621,13 +670,11 @@ function playVideo(overlay) {
     overlay.classList.add('hidden');
     const video = overlay.parentElement.querySelector('video');
     video.play();
-    // Restaura overlay quando o vídeo terminar
     video.addEventListener('ended', () => {
         overlay.classList.remove('hidden');
     }, { once: true });
 }
 
-// Pausa todos os vídeos e restaura seus overlays
 function pauseAllVideos() {
     document.querySelectorAll('video').forEach(video => {
         if (!video.paused) {
@@ -640,10 +687,8 @@ function pauseAllVideos() {
 
 function switchPage(pageId) {
     if (!validPages.includes(pageId)) pageId = 'home';
-    // Evita re-render desnecessário se já está na página
     if (pageId === currentPage) return;
     currentPage = pageId;
-    // Pausa vídeos ao sair da página
     pauseAllVideos();
     document.querySelectorAll('.page-content').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('page-' + pageId);
@@ -661,7 +706,6 @@ function switchPage(pageId) {
 
 window.addEventListener('popstate', e => {
     const page = e.state?.page || getHashPage();
-    // Reseta currentPage para forçar a troca ao navegar pelo histórico
     currentPage = null;
     switchPage(page);
 });
@@ -680,16 +724,13 @@ function setLang(lang) {
     localStorage.setItem('lang', lang);
     document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    // Aplica textos apenas em elementos folha (sem filhos de elemento)
     document.querySelectorAll('[data-pt]').forEach(el => {
         if (!el.querySelector('[data-pt]')) {
             el.textContent = el.getAttribute('data-' + lang);
         }
     });
-    // Atualiza lang no <html> para acessibilidade
     document.documentElement.lang = lang;
 }
-// Aplica idioma salvo (ou inglês) no carregamento
 setLang(currentLang);
 
 // ── Menu mobile ───────────────────────────────────────────────────
